@@ -1,0 +1,26 @@
+groups:
+- name: system.alerts
+  rules:
+  - alert: HostStorageUsageCritical
+    expr: |
+      (
+        (node_filesystem_size_bytes{mountpoint="/"} - node_filesystem_avail_bytes{mountpoint="/"})
+        / node_filesystem_size_bytes{mountpoint="/"}
+        * 100
+      ) > 75
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "VM storage critical - {{ $value | printf \"%.1f\" }}% used"
+      description: "Mount: {{ $labels.mountpoint }}, Device: {{ $labels.device }}, Used: {{ printf \"%.1f\" $value }}%"
+
+  - alert: HostMemoryUsageCritical
+    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.9
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "VM memory critical ({{ $value | humanizePercentage }} used)"
+      description: "Memory usage at {{ $value | humanizePercentage }}"
+

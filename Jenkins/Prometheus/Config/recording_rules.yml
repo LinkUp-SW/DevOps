@@ -1,0 +1,7 @@
+groups:
+- name: system.rules
+  rules:
+  - record: instance:node_load1:rate5m
+    expr: rate(node_load1[5m])
+  - record: instance:node_network_receive_bytes:rate5m
+    expr: rate(node_network_receive_bytes_total[5m])

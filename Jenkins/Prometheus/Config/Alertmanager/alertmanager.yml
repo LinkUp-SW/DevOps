@@ -1,0 +1,31 @@
+route:
+  receiver: 'email-team'
+  group_by: [alertname]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 12h  
+
+receivers:
+- name: 'email-team'
+  email_configs:
+  - to: 'mohamedhazemwwe@outlook.com, marwan.emam.20@gmail.com'  
+    from: 'linkup.alerts@gmail.com'  
+    smarthost: 'smtp.gmail.com:587'  
+    auth_username: 'linkup.alerts@gmail.com'  
+    auth_password: 'not my real password'  
+    require_tls: true  
+    headers:
+      Subject: 'ALERT: {{ .CommonLabels.severity }} - {{ .CommonLabels.alertname }}'
+    html: |
+      <h2>{{ .CommonLabels.alertname }} ({{ .CommonLabels.severity }})</h2>
+      <p><strong>Summary:</strong> {{ .CommonAnnotations.summary }}</p>
+      <h3>Details:</h3>
+      <pre>{{ .CommonAnnotations.description }}</pre>
+      <hr>
+      <small>
+        {{ range .Alerts }}
+        Alert generated at {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}<br>
+        Fingerprint: {{ .Fingerprint }}<br>
+        {{ end }}
+      </small>
+ 
