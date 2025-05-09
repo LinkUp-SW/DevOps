@@ -115,8 +115,8 @@ This repository documents the end-to-end DevOps pipeline and infrastructure conf
 
 ## 👥 Contributors
 
-* **DevOps Lead:** \[Your Name]
-* **Team Lead:** \[Team Leader Name]
+* **DevOps Lead:** \Marwan Emam
+
 
 ---
 
